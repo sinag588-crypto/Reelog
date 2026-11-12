@@ -1,0 +1,22 @@
+name: Build APK
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - run: |
+          mkdir -p app/src/main/java/com/reelog/app app/src/main/assets app/src/main/res/values app/src/main/res/mipmap-xxxhdpi
+          cp MainActivity.java app/src/main/java/com/reelog/app/
+          cp AndroidManifest.xml app/src/main/
+          cp index.html app/src/main/assets/
+          cp ic_launcher.png app/src/main/res/mipmap-xxxhdpi/
+          cp styles.xml app/src/main/res/values/
+          cp app-build.gradle app/build.gradle
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: 8.7 }
+      - run: gradle assembleDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with: { name: reelog-apk, path: app/build/outputs/apk/debug/app-debug.apk }
