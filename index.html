@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-<head><script>if(window.AndroidBridge){window.ReelogNative={hasVideoAccess:function(){return AndroidBridge.hasAccess();},requestVideoAccess:function(){return new Promise(function(r){window.__vcb=r;AndroidBridge.request();});},listVideos:function(){try{return Promise.resolve(JSON.parse(AndroidBridge.list()));}catch(e){return Promise.resolve([]);}}};}</script>
+<head><script>if(window.AndroidBridge){window.ReelogNative={hasVideoAccess:function(){return AndroidBridge.hasAccess();},requestVideoAccess:function(){return new Promise(function(r){window.__vcb=r;AndroidBridge.request();});},openSettings:function(){AndroidBridge.openSettings();},listVideos:function(){try{return Promise.resolve(JSON.parse(AndroidBridge.list()));}catch(e){return Promise.resolve([]);}}};}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reelog</title>
@@ -1041,9 +1041,12 @@ async function nativeScan(){
 }
 async function grantVideos(){
   try{
-    if(NAT&&NAT.requestVideoAccess){ vidOk=!!(await NAT.requestVideoAccess()); if(vidOk) await nativeScan(); }
-    else $('vf').click();
-  }catch(e){ toast('اجازه‌ی دسترسی به ویدیوها داده نشد؛ از تنظیمات گوشی برای Reelog فعالش کن'); }
+    if(NAT&&NAT.requestVideoAccess){
+      vidOk=!!(await NAT.requestVideoAccess());
+      if(vidOk){ const ok=await nativeScan(); toast(ok?(nL(pls.length)+' ویدیو پیدا شد'):'اسکن ویدیوها انجام نشد'); }
+      else{ toast('اجازه داده نشد؛ در تنظیمات گوشی مجوز ویدیوها را فعال کن'); if(NAT.openSettings) setTimeout(()=>NAT.openSettings(),900); }
+    } else $('vf').click();
+  }catch(e){ toast('خطا در دریافت اجازه'); }
   pmUi();
 }
 function dirUi(msg){

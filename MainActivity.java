@@ -73,6 +73,9 @@ public class MainActivity extends Activity {
     @JavascriptInterface public void request() {
       runOnUiThread(() -> { if (granted()) js(true); else requestPermissions(new String[]{perm()}, 1); });
     }
+    @JavascriptInterface public void openSettings() {
+      runOnUiThread(() -> startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()))));
+    }
     @JavascriptInterface public String list() {
       JSONArray a = new JSONArray();
       if (!granted()) return a.toString();
