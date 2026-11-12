@@ -114,7 +114,7 @@ input::placeholder{color:var(--mute)}
 .big{padding:10px 18px;font-weight:600;color:var(--ac)}
 .pi{display:flex;align-items:center;gap:10px;width:100%;text-align:right;background:var(--gl2);border:1px solid var(--gb);border-radius:18px;padding:8px 12px;margin-bottom:8px}
 .pi .pn svg{width:16px;height:16px}.pi .pn{width:34px;height:34px;border-radius:50%;background:var(--ac);color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 34px}
-.pi .pm{flex:1;min-width:0}.pi b{display:block;font-weight:600;font-size:.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pi .pmt{flex:1;min-width:0}.pi b{display:block;font-weight:600;font-size:.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pi small{color:var(--mute);font-size:.78rem}.pi i{font-style:normal;color:#3bb273;font-weight:800}
 .pl{position:fixed;inset:0;z-index:20;background:#000;color:#fff;direction:ltr;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
 .pl video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
@@ -645,7 +645,7 @@ $('pname').innerHTML=IC.film+'<span>نام فیلم</span>';
 function renderPl(){
   const q=norm($('pfilter').value||''); let n=0, h='';
   for(let i=0;i<pls.length&&n<300;i++){ const it=pls[i], p=it.p; if(q&&!norm(p.file).includes(q)) continue; n++;
-    h+='<button class="pi'+(it.hit?' hit':'')+'" data-i="'+i+'"><span class="pn">'+IC.play+'</span><span class="pm"><b class="ltr">'+esc(p.file)+'</b><small>'+(p.unclear?'نام نامشخص؛ موقع پخش می‌پرسم':esc(typeName(p.type)+' · '+p.title+(p.year?' ('+p.year+')':'')+(p.ep?' · '+p.ep:'')))+'</small></span>'+(it.ok?'<i>✓</i>':it.hit?'<em class="hb">در لیست تو</em>':'')+'</button>'; }
+    h+='<button class="pi'+(it.hit?' hit':'')+'" data-i="'+i+'"><span class="pn">'+IC.play+'</span><span class="pmt"><b class="ltr">'+esc(p.file)+'</b><small>'+(p.unclear?'نام نامشخص؛ موقع پخش می‌پرسم':esc(typeName(p.type)+' · '+p.title+(p.year?' ('+p.year+')':'')+(p.ep?' · '+p.ep:'')))+'</small></span>'+(it.ok?'<i>✓</i>':it.hit?'<em class="hb">در لیست تو</em>':'')+'</button>'; }
   $('plist').innerHTML=h||'<div class="empty">'+(pls.length?'موردی پیدا نشد.':'هنوز ویدیویی نیست.')+'</div>';
   $('pfilter').hidden=pls.length<8;
 }
